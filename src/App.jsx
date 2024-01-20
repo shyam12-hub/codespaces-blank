@@ -1,10 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProduct } from "./feature/ProductSlice";
 
 function App() {
-  const loading = useSelector((state) => state.isLodding);
   const dispatch = useDispatch();
+  const loading = useSelector((state) => state.isLoading);
+  const products = useSelector((state) => state.products);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,17 +17,19 @@ function App() {
     };
 
     fetchData();
+  }, [dispatch]);
 
-    // Log the values after the dispatch is completed
-    console.log(loading);
-  }, [dispatch, loading]); // Add dispatch and loading to the dependency array
-
-  // Outside the useEffect, products will have the updated value
-  const products = useSelector((state) => state.products);
-console.log(products)
   return (
     <div>
-      <h1>{loading ? "loading...." : "hello ji"}</h1>
+      <h1>{loading ? "Loading...." : "Hello ji"}</h1>
+      
+      {products && (
+        <ul>
+          {products.map((product) => (
+            <li key={product.id}>{product.name}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

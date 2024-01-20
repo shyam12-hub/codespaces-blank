@@ -3,8 +3,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   products: null,
-  isLodding: false,
+  isLoading: false, // Corrected typo here
 };
+
 const options = {
   method: "GET",
   url: "https://real-time-product-search.p.rapidapi.com/search",
@@ -18,6 +19,7 @@ const options = {
     "X-RapidAPI-Host": "real-time-product-search.p.rapidapi.com",
   },
 };
+
 export const fetchProduct = createAsyncThunk("fetchProduct", async () => {
   try {
     const response = await axios.request(options);
@@ -30,19 +32,17 @@ export const fetchProduct = createAsyncThunk("fetchProduct", async () => {
 export const ProductSlice = createSlice({
   name: "product",
   initialState,
-  extraReducers: (bulider) => {
+  extraReducers: (builder) => {
     // api call pending
-    bulider.addCase(fetchProduct.pending, (state) => {
-      state.isLodding = true;
+    builder.addCase(fetchProduct.pending, (state) => {
+      state.isLoading = true; // Corrected typo here
     });
+
     // api call done
-    bulider.addCase(fetchProduct.fulfilled, (state, action) => {
-      (state.products = action.payload), (state.isLodding = false);
-    });
+    builder.addCase(fetchProduct.fulfilled, (state, action) => (state.isLoading= false,state.products= action.payload) );
 
     // in error
-
-    bulider.addCase(fetchProduct.rejected, () => {
+    builder.addCase(fetchProduct.rejected, () => {
       console.log("error");
     });
   },
