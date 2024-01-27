@@ -4,7 +4,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
   products: null,
   isLoading: true, // Corrected typo here
-  visible:false
+  visible:false,
+  login:false
 };
 
 export const fetchProduct = createAsyncThunk("fetchProduct", async()=>{
@@ -23,8 +24,11 @@ export const ProductSlice = createSlice({
   reducers:{
 setVisbible:(state,action)=>{
   state.visible=action.payload
-}
+},
 
+setLogin:(state,action) =>{
+  state.login = action.payload
+}
   },
   extraReducers: (builder) => {
     // api call pending
@@ -44,5 +48,5 @@ builder.addCase(fetchProduct.rejected, () => {
 });
   },
 });
-export const {setVisbible} = ProductSlice.actions
+export const {setVisbible,setLogin} = ProductSlice.actions
 export default ProductSlice.reducer;

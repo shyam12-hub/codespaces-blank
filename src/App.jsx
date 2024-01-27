@@ -1,45 +1,178 @@
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchProduct } from "./feature/ProductSlice";
-import { Routes ,Route} from "react-router-dom";
+import {Home} from "./Component/Home"
+import {Routes,Route} from "react-router-dom"
+import {Login} from "./Component/Login"
+import { ProductDetails } from "./Component/ProductDetails";
 
-import Home from "./Component/Home"
 function App() {
   const dispatch = useDispatch();
 
-// const products = useSelector(state => state.productReducer.products)
-// const loading = useSelector(state => state.productReducer.isLoading)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
        dispatch(fetchProduct());
-       console.log(products)
-      
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [dispatch.loading]);
+  }, []);
 
+  const products = [
+    {
+      id: 0,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      "rating": 4.69,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
 
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+    {
+      id: 1,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      rating: 4.69,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+    {
+      id: 2,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      rating: 4.69,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+       {
+      id: 3,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      rating: 4.69,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+       {
+      id: 4,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+       {
+      id: 5,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+       {
+      id: 6,
+      title: "iPhone 9",
+      description: "An apple mobile which is nothing like apple",
+      price: 549,
+      discountPercentage: 12.96,
+      images: [
+        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/3.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/4.jpg",
+
+        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+      ],
+      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    },
+  ];
+    const visible = useSelector(state => state.productReducer.visible)
   return (
-    <div className="overflow-y-auto overflow-x-hidden box-border m-0 p-0 font-[Jost, Arial, Helvetica, sans-serif]">
-  {/* <h2>{loading && "Loading"}</h2> */}
+    <div className={`w-full h-[100vh] m-0 p-0 box-border  ${visible ? "bg-gray-400" :"bg-white"} `}>
+    
+   <Routes>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/login" element={<Login/>}/>
+    <Route path="/product/:id" element={<ProductDetails products={products}/>}/>
+   </Routes>
+    
+ 
 
-<div>
-  {/* {
-    products.products.map(data => 
-      <div key={data.id}>
-        <h2>{data.title}</h2>
-      </div>)
-  } */}
-
-  <Routes>
-    <Route path="/" element={<Home/>}/> 
-  </Routes>
-</div>
     </div>
   );
 }

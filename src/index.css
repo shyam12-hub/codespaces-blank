@@ -1,4 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ 
+.products{
+animation:fade-in linear forwards;
+animation-timeline: view();
+animation-range: 100px 500px;
+}
 
+@keyframes fade-in {
+  from{
+    scale: .8;
+    opacity: 0;
+  }
+  to{
+    salce:1;
+    opacity:2
+  }
+}

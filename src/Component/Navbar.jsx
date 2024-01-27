@@ -6,7 +6,8 @@ import { setVisbible } from "../feature/ProductSlice";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import banner from "../images/banner.png"
+
+import {NavLink} from "react-router-dom"
 export function Navbar() {
   const visible = useSelector((state) => state.productReducer.visible);
   const dispatch = useDispatch();
@@ -49,23 +50,14 @@ export function Navbar() {
         <div className="order-3">
           <div className="flex gap-3 p-2 text-3xl font-bold">
             <div><SearchRoundedIcon /></div>
-            <div><AccountCircleOutlinedIcon /></div>
+            <NavLink to="/login"><AccountCircleOutlinedIcon /></NavLink>
 
             <div><ShoppingCartOutlinedIcon /></div>
           </div>
         </div>
       </nav>
       {/* banner */}
-      <div className="flex flex-wrap gap-[2rem] p-5 justify-around items-center text-center">
-        <div className="flex flex-col  font-bold">
- <div className="flex flex-col items-center font-san-serif  text-4xl mb-4 lg:text-6xl lg:mb-[3rem]"><span>Get Best Deals </span><span>And</span><span> Get it at Your home.</span></div>
-    <button className="bg-black text-white px-4 py-2 rounded-md">Shop Know</button>
-        </div>
-      <div className=" h-[30rem] ">
-           <img src={banner} className="h-full w-full object-cover" alt="Banner" />
-      </div>
-      
-      </div>
+     
       {/* category */}
     </div>
   );
