@@ -1,15 +1,49 @@
 import { useParams } from "react-router-dom";
 import { Navbar } from "./Navbar";
-import { useState } from "react";
+import {  useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { setLogin } from "./feature/ProductSlice";
+import {setOrder} from "../feature/ProductSlice"
 import toast from "react-hot-toast";
+import {setCart} from "../feature/ProductSlice"
 export function ProductDetails({ products }) {
   const login = useSelector((state) => state.productReducer.login);
+  const order = useSelector(state => state.productReducer.order)
+  const cart = useSelector(state => state.productReducer.cart)
   const dispatch  = useDispatch()
   const { id } = useParams();
   const product = products.find((product) => product.id === parseInt(id));
+  const userData = useSelector(state => state.productReducer.userData)
   const [image, setImage] = useState(product.images[0]);
+
+  function Buy(){
+    const {userAddress,userCity,userState,userPincode} = userData;
+    if( login){
+      if(userAddress && userCity && userState && userPincode )
+      toast.success("order placed")
+    }
+    else{
+      toast.error("Please login first")
+    }
+    // checking order is an array or not 
+    // Array.isArray(order)
+    const updatedOrder = Array.isArray(order) ? [...order, { product }] : [{ product }];
+    dispatch(setOrder(updatedOrder));
+
+
+
+if(!userAddress && !userCity && !userState && !userPincode) toast.error("Please add address first")
+  }
+function addCart(){
+  if(login){
+    toast.success("Added to cart")
+  }
+  else{
+    toast.error("Please login first")
+  }
+  
+  const Updatecart = Array.isArray(cart) ? [...cart,{product}] : [{cart}] 
+  dispatch(setCart(Updatecart))
+}
   return (
     <div>
       <Navbar />
@@ -58,27 +92,13 @@ export function ProductDetails({ products }) {
               </div>
               <div className="flex gap-[2rem] flex-col justify-center items-center w-full lg:flex-row">
                 <button
-                onClick={()=>{
-                  if(login){
-                    toast.success("Added to cart")
-                  }
-                  else{
-                    toast.error("Please login first")
-                  }
-                }}
-                className="mt-4 bg-black w-[20rem] text-white p-2 rounded-xl font-bold duration-1000 hover:bg-white hover:text-black hover:border-2 border-black ">
+                onClick={addCart}
+                className="mt-4 bg-black w-[20rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-1000 hover:bg-white hover:text-black  ">
                   Add to cart
                 </button>
                 <button 
-                 onClick={()=>{
-                  if(login){
-                    toast.success("order placed")
-                  }
-                  else{
-                    toast.error("Please login first")
-                  }
-                }}
-                className="mt-4 bg-black w-[20rem] text-white p-2 rounded-xl font-bold duration-1000 hover:bg-white hover:text-black hover:border-2 border-black ">
+                onClick={Buy}
+                className="mt-4 bg-black w-[20rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-1000 hover:bg-white hover:text-black  ">
                   Buy now
                 </button>
               </div>

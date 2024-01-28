@@ -15,9 +15,10 @@ export const Login = () => {
   }
   return (
     <main className="flex flex-col justify-center items-center h-screen bg-gray-50 px-4 py-12">
-      <section className="w-full max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+  
+      <section className="w-full max-w-md mx-auto bg-white shadow-2xl rounded-lg overflow-hidden">
         <div className="px-4 py-2">
-          <h2 className="font-bold text-2xl mb-4 text-center">Log in</h2>
+          <h2 className="font-bold text-2xl mb-4 text-center">Get Log in</h2>
           <form
             aria-label="Login Form"
             className="space-y-4"
@@ -28,7 +29,7 @@ export const Login = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="email"
               >
-                Email (phone for mobile accounts)
+                Email 
               </label>
               <input
                 className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
@@ -82,13 +83,24 @@ export const Login = () => {
                 </span>
               </label>
             </div>
-            <button
-              className="w-full bg-black-500 bg-black text-white  py-2 rounded hover:bg-black-600"
+
+ <button
+             className="w-full  bg-black text-white border-2 border-black py-2 rounded duration-200 hover:bg-white hover:text-black "
             
             >
-              Sign In
+              Log in
             </button>
+            
+        
+           
           </form>
+           <button
+           onClick={()=> navigate("/signup")}
+              className="w-full mt-3 bg-black text-white border-2 border-black py-2 rounded duration-200 hover:bg-white hover:text-black "
+            
+            >
+              Create an account
+            </button>
         </div>
         <hr className="border-gray-200 my-2" />
       </section>
