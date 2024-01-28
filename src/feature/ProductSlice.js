@@ -17,12 +17,14 @@ const initialState = {
     userPincode: "",
   },
   order:[],
-  cart:[]
+  cart:[],
+  search:""
 };
 
-export const fetchProduct = createAsyncThunk("fetchProduct", async () => {
+export const fetchProduct = createAsyncThunk("fetchProduct", async ({search}) => {
+  const url = search === "" ? "https://dummyjson.com/products" : `https://dummyjson.com/products/search?q=${search}`;
   try {
-    const response = await axios.get("https://dummyjson.com/products");
+    const response = await axios.get(url);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -48,6 +50,9 @@ export const ProductSlice = createSlice({
   },
   setCart:(state,action)=>{
     state.cart = action.payload
+  },
+  setSearch:(state,action)=>{
+    state.search = action.payload
   }
   },
   extraReducers: (builder) => {
@@ -68,5 +73,5 @@ export const ProductSlice = createSlice({
     });
   },
 });
-export const { setVisbible, setLogin, setUser,setOrder ,setCart} = ProductSlice.actions;
+export const { setVisbible, setLogin, setUser,setOrder ,setCart,setSearch} = ProductSlice.actions;
 export default ProductSlice.reducer;

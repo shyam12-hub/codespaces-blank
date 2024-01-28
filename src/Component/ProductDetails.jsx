@@ -50,7 +50,7 @@ function addCart(){
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid lg:grid-cols-2 gap-10">
           <div className="flex flex-col items-center space-y-6">
-            <div className="h-[20rem] w-[25rem] ">
+            <div className="h-auto w-[25rem] ">
               <img
                 alt="Product image"
                 className=" h-full w-full object-cover bg-gray-100 rounded-lg"

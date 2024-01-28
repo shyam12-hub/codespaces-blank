@@ -1,145 +1,19 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 function Product() {
-  const products = [
-    {
-      id: 0,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      rating: 4.69,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
+ const products = useSelector(state => state.productReducer.products)
+ if(!products || !products.products){
+  return
+ }
+ let randomProducts= []
 
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
+for(let i = 0 ; i < 15; i++){
+  const randomIndex = Math.floor(Math.random() * products.products.length)
+  randomProducts = [...randomProducts, products.products[randomIndex]]
+}
 
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
 
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 1,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      rating: 4.69,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 2,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      rating: 4.69,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 3,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      rating: 4.69,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 4,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 5,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-    {
-      id: 6,
-      title: "iPhone 9",
-      description: "An apple mobile which is nothing like apple",
-      price: 549,
-      discountPercentage: 12.96,
-      images: [
-        "https://cdn.dummyjson.com/product-images/1/1.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/2.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/3.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/4.jpg",
-
-        "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-      ],
-      thumbnail: "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
-    },
-  ];
   const rendingStars = (rating) => {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 !== 0;
@@ -165,18 +39,19 @@ function Product() {
     return stars;
   };
 
+
   return (
     <div>
       <div className="min-h-screen grid justify-center items-center products">
         <section className="py-12 px-6">
           <div className="grid grid-cols-1   gap-[3rem] justify-evenly sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-            {products.map((product) => (
+            {randomProducts.map((product) => (
               <NavLink to= {`/product/${product.id}`} key={product.id} className="p-4 shadow-xl rounded-lg h-11/14 ">
                 <img
                   alt="Product image"
                   className="w-full h-48 object-cover rounded-md"
                   height="200"
-                  src={product.images[2]}
+                  src={product.thumbnail}
                   style={{
                     aspectRatio: "200/200",
                     objectFit: "cover",

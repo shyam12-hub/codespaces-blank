@@ -7,22 +7,32 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import LoginIcon from "@mui/icons-material/Login";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { setLogin } from "../feature/ProductSlice";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import {useNavigate} from "react-router-dom"
+import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
+
+
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "../components/ui/hover-card";
 import { toast } from "react-hot-toast";
+import { setSearch } from "../feature/ProductSlice";
 export function Navbar() {
-  const cart = useSelector(state => state.productReducer.cart)
+  const navigate = useNavigate()
+  const cart = useSelector((state) => state.productReducer.cart);
   const visible = useSelector((state) => state.productReducer.visible);
   const dispatch = useDispatch();
   const menu = ["Fashion", "Accessories", "Conatct Us", "About US"];
   const login = useSelector((state) => state.productReducer.login);
+  function search(e){
+    e.preventDefault()
+    dispatch(setSearch(e.target.value))
+  }
   return (
     <div>
       {/* navbar */}
@@ -65,7 +75,18 @@ export function Navbar() {
         <div className="order-3">
           <div className="flex gap-3 p-2 text-3xl font-bold">
             <div>
-              <SearchRoundedIcon />
+              {/* search */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button variant="outline">
+                    <SearchRoundedIcon />
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px] bg-white flex justify-center gap-2 items-center">
+                  <input type="text" placeholder=" Search your favourite products...."  className="border-2 border-gray-400 p-2 w-[16rem] rounded-lg" />
+               <button className="bg-gray-800 text-white p-2 rounded-lg mx-4" onClick={()=>navigate('/search')}><SearchRoundedIcon /></button>
+                </DialogContent>
+              </Dialog>
             </div>
             {login ? (
               <HoverCard>
@@ -95,15 +116,15 @@ export function Navbar() {
               </NavLink>
             )}
 
-<NavLink to="/cart">
-          <div className="relative">
-            <div className="absolute top-0 left-3 h-5 w-5 flex items-center justify-center rounded-full  text-white text-xs font-bold bg-gray-800">
-              <h2>{cart.length}</h2>{" "}
-            </div>
+            <NavLink to="/cart">
+              <div className="relative">
+                <div className="absolute top-0 left-3 h-5 w-5 flex items-center justify-center rounded-full  text-white text-xs font-bold bg-gray-800">
+                  <h2>{cart.length}</h2>{" "}
+                </div>
 
-            <ShoppingCartOutlinedIcon className="text-gray-800" />
-          </div>
-        </NavLink>
+                <ShoppingCartOutlinedIcon className="text-gray-800" />
+              </div>
+            </NavLink>
           </div>
         </div>
       </nav>
