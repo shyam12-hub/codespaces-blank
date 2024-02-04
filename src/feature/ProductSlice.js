@@ -5,7 +5,7 @@ const initialState = {
   products: null,
   isLoading: true, // Corrected typo here
   visible: false,
-  login: true,
+  login: false,
   userData: {
     userName: "",
     contact: "",
@@ -57,13 +57,12 @@ export const ProductSlice = createSlice({
       state.cart = state.cart.filter(
         (items) => items.product.id !== action.payload
       );
-     
     },
-     removeOrder:(state,action)=>{
-        state.order = state.order.filter(
-          (items) => items.product.id !== action.payload
-        )
-      }
+    removeOrder: (state, action) => {
+      state.order = state.order.filter(
+        (items) => items.product.id !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     // api call pending
@@ -91,6 +90,6 @@ export const {
   setCart,
   setSearch,
   removeCart,
-  removeOrder
+  removeOrder,
 } = ProductSlice.actions;
 export default ProductSlice.reducer;
