@@ -5,7 +5,7 @@ const initialState = {
   products: null,
   isLoading: true, // Corrected typo here
   visible: false,
-  login: true,
+  login: false,
   userData: {
     userName: "",
     contact: "",
