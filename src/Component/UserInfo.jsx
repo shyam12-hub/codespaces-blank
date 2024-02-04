@@ -2,21 +2,23 @@ import { useSelector,useDispatch } from "react-redux";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { setUser } from "../feature/ProductSlice";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog"
 export function UserInfo() {
   const userData = useSelector((state) => state.productReducer.userData);
-const [read,setRead] = useState(true)
+
+
 const dispatch = useDispatch()
 const [user,setUserData] = useState(userData)
-  function edit(e){
-    e.preventDefault()
-    setRead(false)
-    toast.success("edit now")
-  }
-  function save(e){
-    e.preventDefault()
-    setRead(true)
-    toast.success("saved")
-  }
+const {userName,contact,email,userAddress,userCity,userPincode,userState} = user
+
   function profileHandeler(e){
 e.preventDefault();
 dispatch(setUser(user))
@@ -25,200 +27,93 @@ console.log(user)
   }
   return (
     <div className=" shadow-2xl p-6 rounded-xl h-[70vh] overflow-y-scroll overflow-x-hidden">
-  <h2>Manage Profile</h2>
-      <form className="mt-6 flex flex-wrap gap-4 " onSubmit={profileHandeler}>
-       {/* userName */}
-       <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="email"
-          >
-            Full Name
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="uerName"
-            name="usrName"
-            type="text"
-            required
-            readOnly={read}
-            value={user.userName}
-           onChange={(e)=> setUserData((prev)=> ({...prev,userName:e.target.value}))}
-
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
+  <h2 className="text-xl font-semibold text-gray-700">Manage Profile</h2>
+ <div className="flex flex-col gap-3 ">
+  <div>
+    <h2 className="text-gray-700">User Name</h2>
+    <h2 className="italic text-gray-600">{userName}</h2>
+  </div>
+  <div>
+    <h2 className="text-gray-700">Contact no.</h2>
+    <h2 className="italic text-gray-600">{contact}</h2>
+  </div>
+  <div  className="text-gray-700">
+    <h2>Email id.</h2>
+    <h2 className=" text-gray-600">{email}</h2>
+  </div>
+  <div className="flex flex-col gap-2 italic text-gray-600">
+    <h2>{userAddress}</h2>
+    <h2>{userPincode}</h2>
+    <h2>{userCity}</h2>
+    <h2>{userState}</h2>
+    </div>
+ </div>
+ <Dialog>
+      <DialogTrigger asChild>
+        <button onClick={()=> toast.success("Edit now")} className="mt-4 bg-black w-[15rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  ">Edit Profile</button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] bg-white">
+        <DialogHeader>
+          <DialogTitle>Edit profile</DialogTitle>
+          
+        </DialogHeader>
+        <div className="flex flex-col gap-3 p-2 justify-center items-center">
+          {/* username */}
+          <div className="flex gap-4 ">
+            <label htmlFor="userName" className="text-right">
+              User Name
+            </label>
+            <input id="userName"  className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700" value={userName} onChange={(e)=> setUserData({...user,userName:e.target.value})} />
           </div>
-        </div>
-        {/* mobile no */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="contact"
-          >
-          Contact no.
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="contact"
-            name="contact"
-            type="text"
-            required
-            readOnly={read}
-            value={user.contact}
-            onChange={(e)=> setUserData((prev)=> ({...prev,contact:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
+          {/* contact */}
+          <div className="flex gap-4">
+            <label htmlFor="contact" className="text-right">
+              Contact no.
+            </label>
+            <input id="contact" value={contact} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700" onChange={(e)=> setUserData({...user,contact:e.target.value})}/>
           </div>
-        </div>
-        {/* email */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="email"
-            name="email"
-            type="email"
-            required
-            readOnly={read}
-            value={user.email}
-            onChange={(e)=> setUserData((prev)=> ({...prev,email:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
+          {/* email */}
+          <div className="flex gap-9">
+            <label htmlFor="email" className="text-right">
+        Email id.
+            </label>
+            <input id="email" value={email} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700" readOnly onClick={()=> toast.error("Can't change email id")} />
           </div>
-        </div>
-        {/* userAddress */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="userAddress"
-          >
-            Address
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="userAddress"
-            name="userAddress"
-            type="text"
-            required
-            readOnly={read}
-            value={user.userAddress}
-            onChange={(e)=> setUserData((prev)=> ({...prev,userAddress:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
+          {/* userAddress */}
+          <div className="flex gap-2">
+            <label htmlFor="userAddress" className="text-right">
+              User address
+            </label>
+            <input id="userAddress" value={userAddress} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700" onChange={(e)=> setUserData({...user,userAddress:e.target.value})}/>
           </div>
-        </div>
-        {/* userState */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="userState"
-          >
+          {/* pinCode */}
+          <div className="flex gap-9">
+            <label htmlFor="userPincode" className="text-right">
+             Pin Code
+            </label>
+            <input id="userPincode" value={userPincode} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700"  onChange={(e)=> setUserData({...user,userPincode:e.target.value})}/>
+          </div>
+          {/* user City */}
+          <div className="flex gap-16">
+            <label htmlFor="userCity" className="text-right">
+             City
+            </label>
+            <input id="userCity" value={userCity} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700"  onChange={(e)=> setUserData({...user,userCity:e.target.value})}/>
+          </div>
+          {/* user state */}
+          <div className="flex gap-14">
+            <label htmlFor="userState" className="text-right">
            State
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="userState"
-            name="userState"
-            type="text"
-            required
-            readOnly={read}
-            value={user.userState}
-            onChange={(e)=> setUserData((prev)=> ({...prev,userState:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
+            </label>
+            <input id="userState" value={userState} className=" border p-1 font-semibold text-gray-600 border-gray-600 rounded-md focus:border-gray-700" onChange={(e)=> setUserData({...user,userState:e.target.value})}/>
           </div>
         </div>
-        {/* userCity */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="email"
-          >
-         City
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="userCity"
-            name="userCity"
-            type="text"
-            required
-            readOnly={read}
-            value={user.userCity}
-            onChange={(e)=> setUserData((prev)=> ({...prev,userCity:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
-          </div>
-        </div>
-        {/* userPinCode */}
-        <div>
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="pinCode"
-          >
-            Pin Code
-          </label>
-          <input
-            className="mt-1 block w-[16rem] py-2 px-3 border-2 bg-transparent border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-            id="pinCode"
-            name="pinCode"
-            type="number"
-            required
-            readOnly={read}
-            value={user.userPincode}
-            onChange={(e)=> setUserData((prev)=> ({...prev,userPincode:e.target.value}))}
-          />
-          <div className="flex gap-3">
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={edit}>
-              edit
-            </button>
-            <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black " onClick={save}>
-              Save
-            </button>
-          </div>
-          <button className="bg-black text-white py-2 px-5 rounded-md mt-4 border-2 border-black hover:bg-white hover:text-black ">Save Profile</button>
-        </div>
-      </form>
+        
+        <DialogFooter>
+          <button onClick={profileHandeler} className="mt-4 bg-black w-[15rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  ">Save changes</button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
     </div>
   );
 }

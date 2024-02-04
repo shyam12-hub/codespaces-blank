@@ -5,7 +5,7 @@ const initialState = {
   products: null,
   isLoading: true, // Corrected typo here
   visible: false,
-  login: false,
+  login: true,
   userData: {
     userName: "",
     contact: "",
@@ -16,15 +16,14 @@ const initialState = {
     userState: "",
     userPincode: "",
   },
-  order:[],
-  cart:[],
-  search:""
+  order: [],
+  cart: [],
+  search: "",
 };
 
-export const fetchProduct = createAsyncThunk("fetchProduct", async ({search}) => {
-  const url = search === "" ? "https://dummyjson.com/products" : `https://dummyjson.com/products/search?q=${search}`;
+export const fetchProduct = createAsyncThunk("fetchProduct", async () => {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get("https://dummyjson.com/products");
     return response.data;
   } catch (error) {
     console.log(error);
@@ -45,15 +44,26 @@ export const ProductSlice = createSlice({
     setUser: (state, action) => {
       state.userData = action.payload;
     },
-  setOrder:(state,action)=>{
-    state.order = action.payload
-  },
-  setCart:(state,action)=>{
-    state.cart = action.payload
-  },
-  setSearch:(state,action)=>{
-    state.search = action.payload
-  }
+    setOrder: (state, action) => {
+      state.order = action.payload;
+    },
+    setCart: (state, action) => {
+      state.cart = action.payload;
+    },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
+    removeCart: (state, action) => {
+      state.cart = state.cart.filter(
+        (items) => items.product.id !== action.payload
+      );
+     
+    },
+     removeOrder:(state,action)=>{
+        state.order = state.order.filter(
+          (items) => items.product.id !== action.payload
+        )
+      }
   },
   extraReducers: (builder) => {
     // api call pending
@@ -73,5 +83,14 @@ export const ProductSlice = createSlice({
     });
   },
 });
-export const { setVisbible, setLogin, setUser,setOrder ,setCart,setSearch} = ProductSlice.actions;
+export const {
+  setVisbible,
+  setLogin,
+  setUser,
+  setOrder,
+  setCart,
+  setSearch,
+  removeCart,
+  removeOrder
+} = ProductSlice.actions;
 export default ProductSlice.reducer;

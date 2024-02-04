@@ -16,7 +16,7 @@ export const SignUp = () => {
   function formSubmitHandeler(e) {
     e.preventDefault();
     navigate("/");
-    toast.success("Logged in");
+    toast.success("Welcome! to closTich.");
     dispatch(setLogin(true));
     dispatch(setUser(userData));
     console.log(userData);

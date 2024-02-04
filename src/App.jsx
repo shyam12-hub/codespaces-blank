@@ -9,13 +9,14 @@ import { SignUp } from "./Component/SignUp";
 import { ManageProfile } from "./Component/MangeProfile";
 import { Cart } from "./Component/Cart";
 import { Search } from "./Component/Search";
+
 function App() {
   const dispatch = useDispatch();
-  const visible = useSelector((state) => state.productReducer.visible);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        dispatch(fetchProduct({search:""}));
+        dispatch(fetchProduct());
       } catch (error) {
         console.log(error);
       }
@@ -32,11 +33,7 @@ function App() {
   }
 
   return (
-    <div
-      className={`w-full h-[100vh] m-0 p-0 box-border  ${
-        visible ? "bg-gray-400" : "bg-white"
-      } `}
-    >
+    <div className="w-full h-[100vh] m-0 p-0 box-border  ">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -47,7 +44,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/manageProfile" element={<ManageProfile />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/search" element={<Search/>}/>
+        <Route path="/search" element={<Search />} />
       </Routes>
     </div>
   );

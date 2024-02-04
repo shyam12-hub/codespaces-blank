@@ -2,18 +2,16 @@ import React from "react";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { setVisbible } from "../feature/ProductSlice";
+import { setSearch, setVisbible } from "../feature/ProductSlice";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+
 import LoginIcon from "@mui/icons-material/Login";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { setLogin } from "../feature/ProductSlice";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import {useNavigate} from "react-router-dom"
-import { Dialog, DialogContent, DialogTrigger } from "../components/ui/dialog";
-
+import { useNavigate } from "react-router-dom";
 
 import {
   HoverCard,
@@ -21,18 +19,14 @@ import {
   HoverCardTrigger,
 } from "../components/ui/hover-card";
 import { toast } from "react-hot-toast";
-import { setSearch } from "../feature/ProductSlice";
+
 export function Navbar() {
-  const navigate = useNavigate()
   const cart = useSelector((state) => state.productReducer.cart);
   const visible = useSelector((state) => state.productReducer.visible);
   const dispatch = useDispatch();
-  const menu = ["Fashion", "Accessories", "Conatct Us", "About US"];
+  const menu = ["Laptops", "Fragrances", "Home Decoration", "Skin Care"];
   const login = useSelector((state) => state.productReducer.login);
-  function search(e){
-    e.preventDefault()
-    dispatch(setSearch(e.target.value))
-  }
+
   return (
     <div>
       {/* navbar */}
@@ -43,13 +37,9 @@ export function Navbar() {
         >
           ClosTich.
         </NavLink>
-        <div className="relative order-1  lg:order-2 ">
+        <div className="relative showdow-xl order-1  lg:order-2 ">
           <div className="  lg:hidden">
-            <MenuRoundedIcon
-              onClick={() => (
-                dispatch(setVisbible(true)), console.log(visible)
-              )}
-            />
+            <MenuRoundedIcon onClick={() => dispatch(setVisbible(true))} />
           </div>
           <div
             className={`${
@@ -61,11 +51,30 @@ export function Navbar() {
               onClick={() => dispatch(setVisbible(false))}
             />
             <div
-              className={` absolute z-0 left-0 p-4 top-[-2.8rem] bg-white  h-[100vh] w-[18rem]  lg:top-[-1rem] lg:p-3 lg:w-[25rem] lg:h-16 lg:bg-transparent`}
+              className={` absolute z-0 left-0 p-4 top-[-2.8rem] bg-white  h-[100vh] w-[18rem]  lg:top-[-1rem] lg:p-3 lg:w-[30rem] lg:h-16 lg:bg-transparent`}
             >
               <ul className="flex gap-4 flex-col  lg:flex-row ">
                 {menu.map((menu) => (
-                  <li className="text-lg font-bold">{menu}</li>
+                  <NavLink
+                    to="/search"
+                    onClick={() => (
+                      dispatch(
+                        setSearch(
+                          menu === "Home Decoration"
+                            ? "home-decoration"
+                            : menu === "Laptops"
+                            ? "laptops"
+                            : menu === "Fragrances"
+                            ? "fragrances"
+                            : menu === "Skin Care" && "skincare"
+                        )
+                      ),
+                      dispatch(setVisbible(false))
+                    )}
+                    className="text-lg font-bold"
+                  >
+                    {menu}
+                  </NavLink>
                 ))}
               </ul>
             </div>
@@ -74,20 +83,7 @@ export function Navbar() {
 
         <div className="order-3">
           <div className="flex gap-3 p-2 text-3xl font-bold">
-            <div>
-              {/* search */}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button variant="outline">
-                    <SearchRoundedIcon />
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px] bg-white flex justify-center gap-2 items-center">
-                  <input type="text" placeholder=" Search your favourite products...."  className="border-2 border-gray-400 p-2 w-[16rem] rounded-lg" />
-               <button className="bg-gray-800 text-white p-2 rounded-lg mx-4" onClick={()=>navigate('/search')}><SearchRoundedIcon /></button>
-                </DialogContent>
-              </Dialog>
-            </div>
+            <div></div>
             {login ? (
               <HoverCard>
                 <HoverCardTrigger asChild>

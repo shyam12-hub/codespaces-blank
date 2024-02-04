@@ -16,7 +16,7 @@ export function ManageProfile() {
             <div className={`font-semibold ${data === "UserInfo" ? "text-gray-800" : "text-gray-400"}`  } onClick={()=> setData("UserInfo")}>
               Manage Profile
             </div>
-            <div onClick={()=> setData('order')}className={`font-semibold ${data === "order" ? "text-gray-800" : "text-gray-400"}`  }>Orders</div>
+            <div onClick={()=> setData('order')}className={`font-semibold ${data === "order" ? "text-gray-800" : "text-gray-400"}`  }>My orders</div>
           </section>
          {data === "UserInfo" ? <UserInfo /> : <Order/>}
         </div>
