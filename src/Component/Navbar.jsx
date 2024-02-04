@@ -11,22 +11,15 @@ import { NavLink } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { setLogin } from "../feature/ProductSlice";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { useNavigate } from "react-router-dom";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../components/ui/hover-card";
 import { toast } from "react-hot-toast";
-
 export function Navbar() {
   const cart = useSelector((state) => state.productReducer.cart);
   const visible = useSelector((state) => state.productReducer.visible);
   const dispatch = useDispatch();
   const menu = ["Laptops", "Fragrances", "Home Decoration", "Skin Care"];
   const login = useSelector((state) => state.productReducer.login);
-
+  const [show, setShow] = React.useState(false);
   return (
     <div>
       {/* navbar */}
@@ -83,29 +76,34 @@ export function Navbar() {
 
         <div className="order-3">
           <div className="flex gap-3 p-2 text-3xl font-bold">
-            <div></div>
             {login ? (
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <button variant="link">
-                    <AccountCircleOutlinedIcon />
-                  </button>
-                </HoverCardTrigger>
-                <HoverCardContent className=" w-20">
-                  <div className="flex  flex-col ">
-                    <NavLink to="/manageProfile" className="text-md">
-                      <ManageAccountsIcon />
-                    </NavLink>
-                    <div>
-                      <LogoutIcon
-                        onClick={() => (
-                          dispatch(setLogin(false)), toast.success("Log out")
-                        )}
-                      />
-                    </div>
+              <div className="relative">
+                <div
+                  onClick={() => setShow((prev) => !prev)}
+                  className="cursor-pointer"
+                >
+                  {" "}
+                  <AccountCircleOutlinedIcon />
+                </div>
+                <div
+                  className={`absolute py-4 px-5 shadow-xl rounded-md ${
+                    show ? "block" : "hidden"
+                  } `}
+                >
+                  <NavLink to="/manageProfile">
+                    <ManageAccountsIcon />
+                  </NavLink>
+                  <div
+                    onClick={() => (
+                      dispatch(setLogin(false)), toast.success("log out")
+                    )}
+                    className="cursor-pointer"
+                  >
+                    {" "}
+                    <LogoutIcon />
                   </div>
-                </HoverCardContent>
-              </HoverCard>
+                </div>
+              </div>
             ) : (
               <NavLink to="/login">
                 <LoginIcon />
