@@ -11,7 +11,7 @@ import { Cart } from "./Component/Cart";
 import { Search } from "./Component/Search";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();~
 
   useEffect(() => {
     const fetchData = async () => {

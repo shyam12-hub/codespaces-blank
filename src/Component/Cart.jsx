@@ -4,19 +4,18 @@ import { setOrder } from "../feature/ProductSlice";
 import { toast } from "react-hot-toast";
 import { removeCart } from "../feature/ProductSlice";
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog";
 export function Cart() {
   const cart = useSelector((state) => state.productReducer.cart);
-
-  const dispatch = useDispatch();
   const order = useSelector((state) => state.productReducer.order);
+  const login = useSelector((state) => state.productReducer.login);
+  const dispatch = useDispatch();
+
   const totalPrice = cart.reduce(
     (total, product) => total + product.product.price,
     0
@@ -24,13 +23,21 @@ export function Cart() {
   const userData = useSelector((state) => state.productReducer.userData);
   const { userAddress, userCity, userState, userPincode, contact } = userData;
   function buy() {
-    cart.map((cartProduct) =>
-      dispatch(setOrder([...order, { product: cartProduct.product }]))
-    );
-    console.log(order);
-    if (!userAddress && !userCity && !userState && !userPincode)
-      toast.error("Please add address first");
-    else toast.success("orderPlaced");
+    if (login) {
+      if (!userAddress && !userCity && !userState && !userPincode)
+        toast.error("Please add address first");
+      if (userAddress && userCity && userState && userPincode) {
+        dispatch(
+          setOrder([
+            ...order,
+            ...cart.map((product) => ({
+              product: product.product,
+            })),
+          ])
+        );
+        toast.success("orderPlaced");
+      }
+    }
   }
 
   return (
@@ -76,52 +83,46 @@ export function Cart() {
           <span className="text-lg  ">Total amount </span> ${" "}
           <span className="text-red-500">{totalPrice}</span>
         </h2>
-        <button>
-          {cart.length > 0 && (
-            <Sheet className="bg-white">
-              <SheetTrigger asChild>
-                <button className="mt-4 bg-black w-[20rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  ">
-                  Order now
-                </button>
-              </SheetTrigger>
-              <SheetContent side="bottom">
-                <SheetHeader>
-                  <SheetTitle className="text-2xl text-center font-semibold text-gray-800">
-                    Check Out
-                  </SheetTitle>
-                  {cart.map((product) => (
-                    <div key={product.id}>
-                      <div className=" max-w-[25rem] mx-auto">
-                        <img src={product.product.thumbnail} />
-                      </div>
-                      <div className="text-center font-bold text-red-600 text-xl">
-                        ${product.product.price}
-                      </div>
-                      <div className="font-italic text-center text-lg text-gray-700">
-                        <h1>{contact}</h1>
-                        <h1>{userAddress}</h1>
-                        <h1>{userPincode}</h1>
-                        <h1>{userCity}</h1>
-                        <h1>{userState}</h1>
-                      </div>
-                    </div>
-                  ))}
-                </SheetHeader>
+        {cart.length > 0 && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="mt-4 bg-black w-[20rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  ">
+                Order now
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-white ">
+              <DialogHeader>
+                <DialogTitle className="  text-lg text-center p-2 font-semibold text-gray-700">
+                  Chekout Now
+                </DialogTitle>
+              </DialogHeader>
+              {cart.map((product) => (
+                <div key={product.product.id}>
+                  <div className=" max-w-[25rem] mx-auto">
+                    <img src={product.product.thumbnail} />
+                  </div>
+                  <div className="text-center font-bold text-red-600 text-xl">
+                    ${product.product.price}
+                  </div>
+                  <div className="font-italic text-center text-lg text-gray-700">
+                    <h1>{contact}</h1>
+                    <h1>{userAddress}</h1>
+                    <h1>{userPincode}</h1>
+                    <h1>{userCity}</h1>
+                    <h1>{userState}</h1>
+                  </div>
+                </div>
+              ))}
 
-                <SheetFooter>
-                  <SheetClose asChild>
-                    <button
-                      onClick={buy}
-                      className="mt-4 bg-black w-[20rem] border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  "
-                    >
-                      Order now
-                    </button>
-                  </SheetClose>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          )}
-        </button>
+              <button
+                onClick={buy}
+                className="mt-4 bg-black w-[20rem] mx-auto border-2 border-black text-white p-2 rounded-xl font-bold duration-100 hover:bg-white hover:text-black  "
+              >
+                Conferm order
+              </button>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </div>
   );
